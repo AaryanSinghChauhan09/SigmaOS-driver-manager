@@ -1,0 +1,16 @@
+[component]
+name = "SigmaOS-driver-manager"
+tier = 1
+stability = "scaffold"
+language = "rust"
+description = "Dynamic driver manager & device tree orchestrator inspired by FreeBSD devd and modern bus managers"
+upstream = ["https://github.com/freebsd/freebsd-src"]
+
+[contract]
+provides = ["driver-manager", "device-matching", "driver-lifecycle"]
+depends_on = []
+
+[maturity]
+status = "Scaffold"
+test_evidence = "Compiles and passes AAA unit tests"
+next_milestone = "Hardware and runtime integration"

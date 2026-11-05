@@ -2,9 +2,7 @@
 name = "sigmaos_driver_manager"
 version = "0.1.0"
 edition = "2021"
-license = "Apache-2.0"
-
-[dependencies]
+description = "Dynamic driver manager & device tree orchestrator inspired by FreeBSD devd and modern bus managers"
 
 [lib]
 name = "sigmaos_driver_manager"
