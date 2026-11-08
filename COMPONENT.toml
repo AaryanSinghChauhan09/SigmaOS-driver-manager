@@ -3,12 +3,12 @@ name = "SigmaOS-driver-manager"
 tier = 1
 stability = "scaffold"
 language = "rust"
-description = "Dynamic driver manager & device tree orchestrator inspired by FreeBSD devd and modern bus managers"
+description = "Validated device-driver registration, exact PCI matching, and in-memory lifecycle state"
 upstream = ["https://github.com/freebsd/freebsd-src"]
 
 [contract]
 provides = ["driver-manager", "device-matching", "driver-lifecycle"]
-depends_on = []
+depends_on = ["SigmaOS-system"]
 
 [maturity]
 status = "Scaffold"
