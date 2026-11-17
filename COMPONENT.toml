@@ -1,7 +1,7 @@
 [component]
 name = "SigmaOS-driver-manager"
 tier = 1
-stability = "scaffold"
+stability = "beta"
 language = "rust"
 description = "Validated device-driver registration, exact PCI matching, and in-memory lifecycle state"
 upstream = ["https://github.com/freebsd/freebsd-src"]
