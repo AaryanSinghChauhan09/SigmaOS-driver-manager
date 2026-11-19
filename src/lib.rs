@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DeviceDescriptor {
     pub vendor_id: u16,
@@ -137,5 +138,58 @@ mod tests {
         // Assert
         assert_eq!(matched, Some("virtio-net"));
         assert_eq!(mgr.driver_count(), 1);
+    }
+}
+
+
+#[cfg(test)]
+mod driver_manager_extra_tests {
+    use super::*;
+
+    #[test]
+    fn test_empty_driver_name_error_aaa() {
+        // Arrange
+        let mut mgr = DriverManager::new();
+        // Act
+        let res = mgr.register_driver("  ", 0x1000, 0x2000);
+        // Assert
+        assert_eq!(res, Err(DriverManagerError::EmptyName));
+    }
+
+    #[test]
+    fn test_duplicate_driver_name_error_aaa() {
+        // Arrange
+        let mut mgr = DriverManager::new();
+        mgr.register_driver("sound", 0x1111, 0x2222).unwrap();
+        // Act
+        let res = mgr.register_driver("sound", 0x3333, 0x4444);
+        // Assert
+        assert_eq!(res, Err(DriverManagerError::DuplicateName("sound".into())));
+    }
+
+    #[test]
+    fn test_duplicate_device_match_error_aaa() {
+        // Arrange
+        let mut mgr = DriverManager::new();
+        mgr.register_driver("drv_a", 0x8086, 0x100e).unwrap();
+        // Act
+        let res = mgr.register_driver("drv_b", 0x8086, 0x100e);
+        // Assert
+        assert_eq!(res, Err(DriverManagerError::DuplicateDeviceMatch { vendor_id: 0x8086, device_id: 0x100e }));
+    }
+
+    #[test]
+    fn test_driver_status_and_detach_aaa() {
+        // Arrange
+        let mut mgr = DriverManager::new();
+        mgr.register_driver("gpu", 0x10de, 0x1234).unwrap();
+        let dev = DeviceDescriptor { vendor_id: 0x10de, device_id: 0x1234, class_code: 0x03 };
+        mgr.match_and_attach(&dev);
+        assert_eq!(mgr.status("gpu"), Some(&DriverStatus::Active));
+        // Act
+        mgr.detach("gpu").unwrap();
+        // Assert
+        assert_eq!(mgr.status("gpu"), Some(&DriverStatus::Loaded));
+        assert!(mgr.detach("non_existent").is_err());
     }
 }
