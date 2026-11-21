@@ -6,6 +6,9 @@
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
 
+/// Driver management module.
+pub mod sigmadrivermanager;
+
 /// Errors raised by this component.
 #[derive(Debug, thiserror::Error)]
 pub enum ComponentError {
